@@ -49,7 +49,7 @@ public class Page {
 
     private byte[] bytes;
 
-    private List<Request> targetRequests = new ArrayList<Request>();
+    private List<Request> targetRequests = new ArrayList<>();
 
     private String charset;
     

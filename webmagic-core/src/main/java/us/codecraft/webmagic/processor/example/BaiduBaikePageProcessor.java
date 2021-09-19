@@ -37,7 +37,7 @@ public class BaiduBaikePageProcessor implements PageProcessor {
         System.out.println(resultItems);
 
         //multidownload
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add(String.format(urlTemplate,"风力发电"));
         list.add(String.format(urlTemplate,"太阳能"));
         list.add(String.format(urlTemplate,"地热发电"));

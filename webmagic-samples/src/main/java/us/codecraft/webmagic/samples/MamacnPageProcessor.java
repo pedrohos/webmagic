@@ -8,9 +8,7 @@ import us.codecraft.webmagic.samples.pipeline.OneFilePipeline;
 import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 import us.codecraft.webmagic.selector.Selectable;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**

@@ -31,7 +31,7 @@ public class SimpleProxyProvider implements ProxyProvider {
     }
 
     public static SimpleProxyProvider from(Proxy... proxies) {
-        List<Proxy> proxiesTemp = new ArrayList<Proxy>(proxies.length);
+        List<Proxy> proxiesTemp = new ArrayList<>(proxies.length);
         for (Proxy proxy : proxies) {
             proxiesTemp.add(proxy);
         }

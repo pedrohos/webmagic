@@ -23,9 +23,9 @@ public class Site {
 
     private String userAgent;
 
-    private Map<String, String> defaultCookies = new LinkedHashMap<String, String>();
+    private Map<String, String> defaultCookies = new LinkedHashMap<>();
 
-    private Map<String, Map<String, String>> cookies = new ConcurrentHashMap<String, Map<String, String>>();
+    private Map<String, Map<String, String>> cookies = new ConcurrentHashMap<>();
 
     private String charset;
 
@@ -39,11 +39,11 @@ public class Site {
 
     private int timeOut = 5000;
 
-    private static final Set<Integer> DEFAULT_STATUS_CODE_SET = new HashSet<Integer>();
+    private static final Set<Integer> DEFAULT_STATUS_CODE_SET = new HashSet<>();
 
     private Set<Integer> acceptStatCode = DEFAULT_STATUS_CODE_SET;
 
-    private Map<String, String> headers = new ConcurrentHashMap<String, String>();
+    private Map<String, String> headers = new ConcurrentHashMap<>();
 
     private boolean useGzip = true;
 

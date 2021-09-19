@@ -85,7 +85,7 @@ public class HttpRequestBody implements Serializable {
     }
 
     public static HttpRequestBody form(Map<String,Object> params, String encoding){
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(params.size());
+        List<NameValuePair> nameValuePairs = new ArrayList<>(params.size());
         for (Map.Entry<String, Object> entry : params.entrySet()) {
             nameValuePairs.add(new BasicNameValuePair(entry.getKey(), String.valueOf(entry.getValue())));
         }

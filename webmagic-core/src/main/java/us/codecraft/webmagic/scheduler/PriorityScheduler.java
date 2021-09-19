@@ -19,16 +19,16 @@ public class PriorityScheduler extends DuplicateRemovedScheduler implements Moni
 
     public static final int INITIAL_CAPACITY = 5;
 
-    private BlockingQueue<Request> noPriorityQueue = new LinkedBlockingQueue<Request>();
+    private BlockingQueue<Request> noPriorityQueue = new LinkedBlockingQueue<>();
 
-    private PriorityBlockingQueue<Request> priorityQueuePlus = new PriorityBlockingQueue<Request>(INITIAL_CAPACITY, new Comparator<Request>() {
+    private PriorityBlockingQueue<Request> priorityQueuePlus = new PriorityBlockingQueue<>(INITIAL_CAPACITY, new Comparator<Request>() {
         @Override
         public int compare(Request o1, Request o2) {
             return -NumberUtils.compareLong(o1.getPriority(), o2.getPriority());
         }
     });
 
-    private PriorityBlockingQueue<Request> priorityQueueMinus = new PriorityBlockingQueue<Request>(INITIAL_CAPACITY, new Comparator<Request>() {
+    private PriorityBlockingQueue<Request> priorityQueueMinus = new PriorityBlockingQueue<>(INITIAL_CAPACITY, new Comparator<Request>() {
         @Override
         public int compare(Request o1, Request o2) {
             return -NumberUtils.compareLong(o1.getPriority(), o2.getPriority());

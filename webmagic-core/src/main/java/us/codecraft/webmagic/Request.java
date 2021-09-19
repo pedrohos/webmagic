@@ -41,9 +41,9 @@ public class Request implements Serializable {
     /**
      * cookies for current url, if not set use Site's cookies
      */
-    private Map<String, String> cookies = new ConcurrentHashMap<String, String>();
+    private Map<String, String> cookies = new ConcurrentHashMap<>();
 
-    private Map<String, String> headers = new ConcurrentHashMap<String, String>();
+    private Map<String, String> headers = new ConcurrentHashMap<>();
 
     /**
      * Priority of the request.<br>
@@ -95,7 +95,7 @@ public class Request implements Serializable {
 
     public <T> Request putExtra(String key, T value) {
         if (extras == null) {
-            extras = new HashMap<String, Object>();
+            extras = new HashMap<>();
         }
         extras.put(key, value);
         return this;

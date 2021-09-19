@@ -62,7 +62,7 @@ public class Spider implements Runnable, Task {
 
     protected Downloader downloader;
 
-    protected List<Pipeline> pipelines = new ArrayList<Pipeline>();
+    protected List<Pipeline> pipelines = new ArrayList<>();
 
     protected PageProcessor pageProcessor;
 
@@ -247,7 +247,7 @@ public class Spider implements Runnable, Task {
      * @return this
      */
     public Spider clearPipeline() {
-        pipelines = new ArrayList<Pipeline>();
+        pipelines = new ArrayList<>();
         return this;
     }
 

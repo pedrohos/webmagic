@@ -2,7 +2,6 @@ package us.codecraft.webmagic.downloader;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -34,7 +33,7 @@ public class HttpClientDownloader extends AbstractDownloader {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final Map<String, CloseableHttpClient> httpClients = new ConcurrentHashMap<String, CloseableHttpClient>();
+    private final Map<String, CloseableHttpClient> httpClients = new ConcurrentHashMap<>();
 
     private HttpClientGenerator httpClientGenerator = new HttpClientGenerator();
 

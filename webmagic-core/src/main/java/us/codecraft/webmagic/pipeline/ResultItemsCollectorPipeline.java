@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class ResultItemsCollectorPipeline implements CollectorPipeline<ResultItems> {
 
-    private List<ResultItems> collector = new ArrayList<ResultItems>();
+    private List<ResultItems> collector = new ArrayList<>();
 
     @Override
     public void process(ResultItems resultItems, Task task) {

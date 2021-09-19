@@ -3,7 +3,6 @@ package us.codecraft.webmagic.utils;
 import org.apache.http.Header;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
