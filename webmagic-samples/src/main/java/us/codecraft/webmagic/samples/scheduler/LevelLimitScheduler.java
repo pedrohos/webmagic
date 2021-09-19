@@ -16,9 +16,11 @@ public class LevelLimitScheduler extends PriorityScheduler {
     }
 
     @Override
-    public synchronized void push(Request request, Task task) {
-        if (((Integer) request.getExtra("_level")) <= levelLimit) {
-            super.push(request, task);
+    public void push(Request request, Task task) {
+        synchronized(this) {
+            if (((Integer) request.getExtra("_level")) <= levelLimit) {
+                super.push(request, task);
+            }
         }
     }
 }

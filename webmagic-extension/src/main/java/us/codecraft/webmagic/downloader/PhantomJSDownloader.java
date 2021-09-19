@@ -129,7 +129,7 @@ public class PhantomJSDownloader extends AbstractDownloader {
             StringBuffer stringBuffer = new StringBuffer();
             String line;
             while ((line = br.readLine()) != null) {
-                stringBuffer.append(line).append("\n");
+                stringBuffer.append(line).append('\n');
             }
             return stringBuffer.toString();
         } catch (IOException e) {

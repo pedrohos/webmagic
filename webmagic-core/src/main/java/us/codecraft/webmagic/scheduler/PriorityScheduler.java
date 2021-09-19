@@ -47,16 +47,18 @@ public class PriorityScheduler extends DuplicateRemovedScheduler implements Moni
     }
 
     @Override
-    public synchronized Request poll(Task task) {
-        Request poll = priorityQueuePlus.poll();
-        if (poll != null) {
-            return poll;
+    public Request poll(Task task) {
+        synchronized(this) {
+            Request poll = priorityQueuePlus.poll();
+            if (poll != null) {
+                return poll;
+            }
+            poll = noPriorityQueue.poll();
+            if (poll != null) {
+                return poll;
+            }
+            return priorityQueueMinus.poll();
         }
-        poll = noPriorityQueue.poll();
-        if (poll != null) {
-            return poll;
-        }
-        return priorityQueueMinus.poll();
     }
 
     @Override

@@ -82,7 +82,7 @@ public class Proxy {
             userInfoBuffer.append(urlencode(username));
         }
         if (password != null) {
-            userInfoBuffer.append(":").append(urlencode(password));
+            userInfoBuffer.append(':').append(urlencode(password));
         }
         final String userInfo = StringUtils.defaultIfEmpty(userInfoBuffer.toString(), null);
         URI uri;

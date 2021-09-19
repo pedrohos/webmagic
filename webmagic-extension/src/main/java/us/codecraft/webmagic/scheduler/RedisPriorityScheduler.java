@@ -53,13 +53,15 @@ public class RedisPriorityScheduler extends RedisScheduler {
     }
 
     @Override
-    public synchronized Request poll(Task task) {
-        try (Jedis jedis = pool.getResource()) {
-            String url = getRequest(jedis, task);
-            if (StringUtils.isBlank(url)) {
-                return null;
+    public Request poll(Task task) {
+        synchronized(this) {
+            try (Jedis jedis = pool.getResource()) {
+                String url = getRequest(jedis, task);
+                if (StringUtils.isBlank(url)) {
+                    return null;
+                }
+                return getExtrasInItem(jedis, url, task);
             }
-            return getExtrasInItem(jedis, url, task);
         }
     }
 

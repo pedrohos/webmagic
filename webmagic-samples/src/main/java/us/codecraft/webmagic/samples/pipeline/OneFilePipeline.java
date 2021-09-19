@@ -8,6 +8,8 @@ import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.utils.FilePersistentBase;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 
 /**
@@ -19,29 +21,31 @@ public class OneFilePipeline extends FilePersistentBase implements Pipeline {
 
     private PrintWriter printWriter;
 
-    public OneFilePipeline() throws FileNotFoundException, UnsupportedEncodingException {
+    public OneFilePipeline() throws IOException {
         this("/data/webmagic/");
     }
 
-    public OneFilePipeline(String path) throws FileNotFoundException, UnsupportedEncodingException {
+    public OneFilePipeline(String path) throws IOException {
         setPath(path);
-        printWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(getFile(path)), "UTF-8"));
+        printWriter = new PrintWriter(new OutputStreamWriter(Files.newOutputStream(Paths.get(path))));
     }
 
     @Override
-    public synchronized void process(ResultItems resultItems, Task task) {
-        printWriter.println("url:\t" + resultItems.getRequest().getUrl());
-        for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
-            if (entry.getValue() instanceof Iterable) {
-                Iterable value = (Iterable) entry.getValue();
-                printWriter.println(entry.getKey() + ":");
-                for (Object o : value) {
-                    printWriter.println(o);
+    public void process(ResultItems resultItems, Task task) {
+        synchronized(this) {
+            printWriter.println("url:\t" + resultItems.getRequest().getUrl());
+            for (Map.Entry<String, Object> entry : resultItems.getAll().entrySet()) {
+                if (entry.getValue() instanceof Iterable) {
+                    Iterable value = (Iterable) entry.getValue();
+                    printWriter.println(entry.getKey() + ":");
+                    for (Object o : value) {
+                        printWriter.println(o);
+                    }
+                } else {
+                    printWriter.println(entry.getKey() + ":\t" + entry.getValue());
                 }
-            } else {
-                printWriter.println(entry.getKey() + ":\t" + entry.getValue());
             }
+            printWriter.flush();
         }
-        printWriter.flush();
     }
 }

@@ -72,7 +72,8 @@ public class SmartContentSelector implements Selector {
                 //System.out.println(start+1 + "\t\t" + end+1);
                 for (int ii = start; ii <= end; ii++) {
                     if (lines.get(ii).length() < 5) continue;
-                    tmp.append(lines.get(ii) + "\n");
+                    tmp.append(lines.get(ii));
+                    tmp.append('\n');
                 }
                 String str = tmp.toString();
                 //System.out.println(str);

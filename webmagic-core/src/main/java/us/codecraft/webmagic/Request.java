@@ -7,6 +7,7 @@ import us.codecraft.webmagic.utils.Experimental;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Object contains url to crawl.<br>
@@ -40,9 +41,9 @@ public class Request implements Serializable {
     /**
      * cookies for current url, if not set use Site's cookies
      */
-    private Map<String, String> cookies = new HashMap<String, String>();
+    private Map<String, String> cookies = new ConcurrentHashMap<String, String>();
 
-    private Map<String, String> headers = new HashMap<String, String>();
+    private Map<String, String> headers = new ConcurrentHashMap<String, String>();
 
     /**
      * Priority of the request.<br>

@@ -49,7 +49,7 @@ public class DelayQueueScheduler extends PriorityScheduler {
 
         @Override
         public int compareTo(Delayed o) {
-            return new Long(getDelay(TimeUnit.MILLISECONDS)).compareTo(o.getDelay(TimeUnit.MILLISECONDS));
+            return Long.valueOf(getDelay(TimeUnit.MILLISECONDS)).compareTo(o.getDelay(TimeUnit.MILLISECONDS));
         }
     }
 
@@ -59,24 +59,27 @@ public class DelayQueueScheduler extends PriorityScheduler {
     }
 
     @Override
-    public synchronized void push(Request request, Task task) {
-        if (urls.add(request.getUrl())) {
-            queue.add(new RequestWrapper(request));
+    public void push(Request request, Task task) {
+        synchronized(this) {
+            if (urls.add(request.getUrl())) {
+                queue.add(new RequestWrapper(request));
+            }
         }
-
     }
 
     @Override
-    public synchronized Request poll(Task task) {
-        RequestWrapper take = null;
-        while (take == null) {
-            try {
-                take = queue.take();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public Request poll(Task task) {
+        synchronized(this) {
+            RequestWrapper take = null;
+            while (take == null) {
+                try {
+                    take = queue.take();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
+            queue.add(new RequestWrapper(take.getRequest()));
+            return take.getRequest();
         }
-        queue.add(new RequestWrapper(take.getRequest()));
-        return take.getRequest();
     }
 }

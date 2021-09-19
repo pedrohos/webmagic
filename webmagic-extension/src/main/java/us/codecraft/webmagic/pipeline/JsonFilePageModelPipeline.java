@@ -12,6 +12,8 @@ import us.codecraft.webmagic.utils.FilePersistentBase;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Store results objects (page models) to files in JSON format.<br>
@@ -46,7 +48,7 @@ public class JsonFilePageModelPipeline extends FilePersistentBase implements Pag
             } else {
                 filename = path + DigestUtils.md5Hex(ToStringBuilder.reflectionToString(o)) + ".json";
             }
-            PrintWriter printWriter = new PrintWriter(new FileWriter(getFile(filename)));
+            PrintWriter printWriter = new PrintWriter(Files.newBufferedWriter(Paths.get(filename)));
             printWriter.write(JSON.toJSONString(o));
             printWriter.close();
         } catch (IOException e) {

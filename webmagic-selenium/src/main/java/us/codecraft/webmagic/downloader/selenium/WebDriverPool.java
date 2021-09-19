@@ -14,6 +14,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +71,7 @@ class WebDriverPool {
 		if (System.getProperty("selenuim_config")!=null){
 			configFile = System.getProperty("selenuim_config");
 		}
-		sConfig.load(new FileReader(configFile));
+		sConfig.load(Files.newBufferedReader(Paths.get(configFile)));
 
 		// Prepare capabilities
 		sCaps = new DesiredCapabilities();

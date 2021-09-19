@@ -9,6 +9,7 @@ import us.codecraft.webmagic.scheduler.FileCacheQueueScheduler;
 import us.codecraft.webmagic.selector.Selectable;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class MamacnPageProcessor implements PageProcessor {
         List<Selectable> nodes = page.getHtml().xpath("//ul[@id=ma-thumb-list]/li").nodes();
         StringBuilder accum = new StringBuilder();
         for (Selectable node : nodes) {
-            accum.append("img:").append(node.xpath("//a/@href").get()).append("\n");
-            accum.append("title:").append(node.xpath("//img/@alt").get()).append("\n");
+            accum.append("img:").append(node.xpath("//a/@href").get()).append('\n');
+            accum.append("title:").append(node.xpath("//img/@alt").get()).append('\n');
         }
         page.putField("",accum.toString());
         if (accum.length() == 0) {
@@ -39,7 +40,7 @@ public class MamacnPageProcessor implements PageProcessor {
         return site;
     }
 
-    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+    public static void main(String[] args) throws IOException {
         Spider.create(new MamacnPageProcessor())
                 .setScheduler(new FileCacheQueueScheduler("/data/webmagic/mamacn"))
                 .addUrl("http://www.mama.cn/photo/t1-p1.html")

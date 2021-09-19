@@ -11,6 +11,8 @@ import us.codecraft.webmagic.utils.FilePersistentBase;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Store results to files in JSON format.<br>
@@ -37,7 +39,7 @@ public class JsonFilePipeline extends FilePersistentBase implements Pipeline {
     public void process(ResultItems resultItems, Task task) {
         String path = this.path + PATH_SEPERATOR + task.getUUID() + PATH_SEPERATOR;
         try {
-            PrintWriter printWriter = new PrintWriter(new FileWriter(getFile(path + DigestUtils.md5Hex(resultItems.getRequest().getUrl()) + ".json")));
+            PrintWriter printWriter = new PrintWriter(Files.newBufferedWriter(Paths.get(path + DigestUtils.md5Hex(resultItems.getRequest().getUrl()) + ".json")));
             printWriter.write(JSON.toJSONString(resultItems.getAll()));
             printWriter.close();
         } catch (IOException e) {

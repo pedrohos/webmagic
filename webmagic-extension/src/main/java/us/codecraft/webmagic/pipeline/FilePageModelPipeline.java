@@ -11,6 +11,8 @@ import us.codecraft.webmagic.utils.FilePersistentBase;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Store results objects (page models) to files in plain format.<br>
@@ -45,7 +47,7 @@ public class FilePageModelPipeline extends FilePersistentBase implements PageMod
             } else {
                 filename = path + DigestUtils.md5Hex(ToStringBuilder.reflectionToString(o)) + ".html";
             }
-            PrintWriter printWriter = new PrintWriter(new FileWriter(getFile(filename)));
+            PrintWriter printWriter = new PrintWriter(Files.newBufferedWriter(Paths.get(filename)));
             printWriter.write(ToStringBuilder.reflectionToString(o));
             printWriter.close();
         } catch (IOException e) {

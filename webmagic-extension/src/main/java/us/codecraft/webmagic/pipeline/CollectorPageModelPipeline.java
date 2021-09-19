@@ -13,8 +13,10 @@ public class CollectorPageModelPipeline<T> implements PageModelPipeline<T> {
     private List<T> collected = new ArrayList<T>();
 
     @Override
-    public synchronized void process(T t, Task task) {
-        collected.add(t);
+    public void process(T t, Task task) {
+        synchronized(this) {
+            collected.add(t);
+        }
     }
 
     public List<T> getCollected() {

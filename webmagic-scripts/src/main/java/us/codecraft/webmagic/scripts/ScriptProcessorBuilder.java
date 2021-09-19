@@ -5,6 +5,8 @@ import org.apache.commons.io.IOUtils;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author code4crafter@gmail.com
@@ -34,7 +36,7 @@ public class ScriptProcessorBuilder {
 
     public ScriptProcessorBuilder scriptFromFile(String fileName) {
         try {
-            InputStream resourceAsStream = new FileInputStream(fileName);
+            InputStream resourceAsStream = Files.newInputStream(Paths.get(fileName));
             this.script = IOUtils.toString(resourceAsStream);
         } catch (IOException e) {
             //wrap IOException because I prefer a runtime exception...

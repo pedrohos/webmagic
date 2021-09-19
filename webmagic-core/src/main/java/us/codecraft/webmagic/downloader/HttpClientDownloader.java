@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
@@ -33,7 +34,7 @@ public class HttpClientDownloader extends AbstractDownloader {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final Map<String, CloseableHttpClient> httpClients = new HashMap<String, CloseableHttpClient>();
+    private final Map<String, CloseableHttpClient> httpClients = new ConcurrentHashMap<String, CloseableHttpClient>();
 
     private HttpClientGenerator httpClientGenerator = new HttpClientGenerator();
 

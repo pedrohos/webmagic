@@ -15,8 +15,10 @@ public class ResultItemsCollectorPipeline implements CollectorPipeline<ResultIte
     private List<ResultItems> collector = new ArrayList<ResultItems>();
 
     @Override
-    public synchronized void process(ResultItems resultItems, Task task) {
-        collector.add(resultItems);
+    public void process(ResultItems resultItems, Task task) {
+        synchronized(this) {
+            collector.add(resultItems);
+        }
     }
 
     @Override

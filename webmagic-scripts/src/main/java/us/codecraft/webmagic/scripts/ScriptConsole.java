@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author code4crafter@gmail.com
@@ -26,7 +27,7 @@ public class ScriptConsole {
         List<String> urls;
         int thread = 1;
         int sleepTime = 1000;
-        private static Map<Language, Set<String>> alias = new HashMap<Language, Set<String>>();
+        private static Map<Language, Set<String>> alias = new ConcurrentHashMap<Language, Set<String>>();
 
         static {
             alias.put(Language.JavaScript, WMCollections.<String>newHashSet("js", "javascript", "JavaScript", "JS"));

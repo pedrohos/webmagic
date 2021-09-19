@@ -95,21 +95,23 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements Monitor
     }
 
     @Override
-    public synchronized Request poll(Task task) {
-		try (Jedis jedis = pool.getResource()) {
-            String url = jedis.lpop(getQueueKey(task));
-            if (url == null) {
-                return null;
+    public Request poll(Task task) {
+        synchronized(this) {
+            try (Jedis jedis = pool.getResource()) {
+                String url = jedis.lpop(getQueueKey(task));
+                if (url == null) {
+                    return null;
+                }
+                String key = ITEM_PREFIX + task.getUUID();
+                String field = DigestUtils.sha1Hex(url);
+                byte[] bytes = jedis.hget(key.getBytes(), field.getBytes());
+                if (bytes != null) {
+                    Request o = JSON.parseObject(new String(bytes), Request.class);
+                    return o;
+                }
+                Request request = new Request(url);
+                return request;
             }
-            String key = ITEM_PREFIX + task.getUUID();
-            String field = DigestUtils.sha1Hex(url);
-            byte[] bytes = jedis.hget(key.getBytes(), field.getBytes());
-            if (bytes != null) {
-                Request o = JSON.parseObject(new String(bytes), Request.class);
-                return o;
-            }
-            Request request = new Request(url);
-            return request;
         }
     }
 

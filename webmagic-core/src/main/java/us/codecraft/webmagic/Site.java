@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import us.codecraft.webmagic.utils.HttpConstant;
 
@@ -24,7 +25,7 @@ public class Site {
 
     private Map<String, String> defaultCookies = new LinkedHashMap<String, String>();
 
-    private Map<String, Map<String, String>> cookies = new HashMap<String, Map<String, String>>();
+    private Map<String, Map<String, String>> cookies = new ConcurrentHashMap<String, Map<String, String>>();
 
     private String charset;
 
@@ -42,7 +43,7 @@ public class Site {
 
     private Set<Integer> acceptStatCode = DEFAULT_STATUS_CODE_SET;
 
-    private Map<String, String> headers = new HashMap<String, String>();
+    private Map<String, String> headers = new ConcurrentHashMap<String, String>();
 
     private boolean useGzip = true;
 

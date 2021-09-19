@@ -76,12 +76,14 @@ public class DoubleKeyMap<K1, K2, V> extends MultiKeyMapBase {
      * @param value value
      * @return value
      */
-    public synchronized V put(K1 key1, K2 key2, V value) {
-        if (map.get(key1) == null) {
-            //不加锁的话，多个线程有可能都会执行到这里
-            map.put(key1, this.<K2, V>newMap());
+    public V put(K1 key1, K2 key2, V value) {
+        synchronized(this) {
+            if (map.get(key1) == null) {
+                //不加锁的话，多个线程有可能都会执行到这里
+                map.put(key1, this.<K2, V>newMap());
+            }
+            return get(key1).put(key2, value);
         }
-        return get(key1).put(key2, value);
     }
 
     /**
@@ -89,15 +91,17 @@ public class DoubleKeyMap<K1, K2, V> extends MultiKeyMapBase {
      * @param key2 key2
      * @return value
      */
-    public synchronized V remove(K1 key1, K2 key2) {
-        if (get(key1) == null) {
-            return null;
+    public V remove(K1 key1, K2 key2) {
+        synchronized(this) {
+            if (get(key1) == null) {
+                return null;
+            }
+            V remove = get(key1).remove(key2);
+            if (get(key1).size() == 0) {
+                remove(key1);
+            }
+            return remove;
         }
-        V remove = get(key1).remove(key2);
-        if (get(key1).size() == 0) {
-            remove(key1);
-        }
-        return remove;
     }
 
     /**

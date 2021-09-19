@@ -8,6 +8,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
@@ -117,8 +121,9 @@ public class FileCacheQueueScheduler extends DuplicateRemovedScheduler implement
 
     private void initWriter() {
         try {
-            fileUrlWriter = new PrintWriter(new FileWriter(getFileName(fileUrlAllName), true));
-            fileCursorWriter = new PrintWriter(new FileWriter(getFileName(fileCursor), false));
+            fileUrlWriter = new PrintWriter(Files.newBufferedWriter(Paths.get(getFileName(fileUrlAllName)),
+                    StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.WRITE));
+            fileCursorWriter = new PrintWriter(Files.newBufferedWriter(Paths.get(getFileName(fileCursor))));
         } catch (IOException e) {
             throw new RuntimeException("init cache scheduler error", e);
         }
@@ -143,7 +148,7 @@ public class FileCacheQueueScheduler extends DuplicateRemovedScheduler implement
         String line;
         BufferedReader fileUrlReader = null;
         try {
-            fileUrlReader = new BufferedReader(new FileReader(getFileName(fileUrlAllName)));
+            fileUrlReader = new BufferedReader(Files.newBufferedReader(Paths.get(getFileName(fileUrlAllName))));
             int lineReaded = 0;
             while ((line = fileUrlReader.readLine()) != null) {
                 urls.add(line.trim());
@@ -162,7 +167,7 @@ public class FileCacheQueueScheduler extends DuplicateRemovedScheduler implement
     private void readCursorFile() throws IOException {
         BufferedReader fileCursorReader = null;
         try {
-        	fileCursorReader = new BufferedReader(new FileReader(getFileName(fileCursor)));
+        	fileCursorReader = new BufferedReader(Files.newBufferedReader(Paths.get(getFileName(fileCursor))));
             String line;
             //read the last number
             while ((line = fileCursorReader.readLine()) != null) {
@@ -195,12 +200,14 @@ public class FileCacheQueueScheduler extends DuplicateRemovedScheduler implement
     }
 
     @Override
-    public synchronized Request poll(Task task) {
-        if (!inited.get()) {
-            init(task);
+    public Request poll(Task task) {
+        synchronized(this) {
+            if (!inited.get()) {
+                init(task);
+            }
+            fileCursorWriter.println(cursor.incrementAndGet());
+            return queue.poll();
         }
-        fileCursorWriter.println(cursor.incrementAndGet());
-        return queue.poll();
     }
 
     @Override
